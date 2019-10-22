@@ -12,9 +12,15 @@ from tkinter import *
 from Canvas import Rectangle, CanvasText, Group, Window
 
 class Group(Group):
-   def bind(self, sequence=None, command=None):
+    def bind(self, sequence=None, command=None):
         return self.canvas.tag_bind(self.id, sequence, command)
 
+
+# Constants determining the size and lay-out of cards and stacks.  We
+# work in a "grid" where each card/stack is surrounded by MARGIN
+# pixels of space on each side, so adjacent stacks are separated by
+# 2*MARGIN pixels.  OFFSET is the offset used for displaying the
+# face down cards in the row stacks.
 
 CARDWIDTH = 100
 CARDHEIGHT = 150
@@ -52,7 +58,7 @@ for s in (HEARTS, DIAMONDS):
 for s in (CLUBS, SPADES):
     COLOR[s] = BLACK
 
-ALLSUITS = list(COLOR.keys())
+ALLSUITS = COLOR.keys()
 NSUITS = len(ALLSUITS)
 
 
@@ -63,7 +69,7 @@ ACE = 1
 JACK = 11
 QUEEN = 12
 KING = 13
-ALLVALUES = list(range(1, 14)) # (one more than the highest value)
+ALLVALUES = range(1, 14) # (one more than the highest value)
 NVALUES = len(ALLVALUES)
 
 
@@ -71,7 +77,7 @@ NVALUES = len(ALLVALUES)
 # dummy element at index 0 so it can be indexed directly with the card
 # value.
 
-VALNAMES = ["", "A"] + list(map(str, list(range(2, 11)))) + ["J", "Q", "K"]
+VALNAMES = ["", "A"] + map(str, range(2, 11)) + ["J", "Q", "K"]
 
 
 # Solitaire constants.  The only one I can think of is the number of
@@ -407,7 +413,7 @@ class Deck(Stack):
 
 def randperm(n):
     """Function returning a random permutation of range(n)."""
-    r = list(range(n))
+    r = range(n)
     x = []
     while r:
         i = random.choice(r)
