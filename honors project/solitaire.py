@@ -11,11 +11,6 @@ import random
 from tkinter import *
 from Canvas import Rectangle, CanvasText, Group, Window
 
-#f
-# Fix a bug in Canvas.Group as distributed in Python 1.4.  The
-# distributed bind() method is broken.  Rather than asking you to fix
-# the source, we fix it here by deriving a subclass:
-
 class Group(Group):
     def bind(self, sequence=None, command=None):
         return self.canvas.tag_bind(self.id, sequence, command)
