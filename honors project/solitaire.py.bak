@@ -16,11 +16,6 @@ class Group(Group):
         return self.canvas.tag_bind(self.id, sequence, command)
 
 
-# Constants determining the size and lay-out of cards and stacks.  We
-# work in a "grid" where each card/stack is surrounded by MARGIN
-# pixels of space on each side, so adjacent stacks are separated by
-# 2*MARGIN pixels.  OFFSET is the offset used for displaying the
-# face down cards in the row stacks.
 
 CARDWIDTH = 100
 CARDHEIGHT = 150
@@ -29,20 +24,8 @@ XSPACING = CARDWIDTH + 2*MARGIN
 YSPACING = CARDHEIGHT + 4*MARGIN
 OFFSET = 5
 
-# The background color, green to look like a playing table.  The
-# standard green is way too bright, and dark green is way to dark, so
-# we use something in between.  (There are a few more colors that
-# could be customized, but they are less controversial.)
-
 BACKGROUND = '#070'
 
-
-# Suits and colors.  The values of the symbolic suit names are the
-# strings used to display them (you change these and VALNAMES to
-# internationalize the game).  The COLOR dictionary maps suit names to
-# colors (red and black) which must be Tk color names.  The keys() of
-# the COLOR dictionary conveniently provides us with a list of all
-# suits (in arbitrary order).
 
 HEARTS = 'Heart'
 DIAMONDS = 'Diamond'
@@ -61,82 +44,22 @@ for s in (CLUBS, SPADES):
 ALLSUITS = COLOR.keys()
 NSUITS = len(ALLSUITS)
 
-
-# Card values are 1-13.  We also define symbolic names for the picture
-# cards.  ALLVALUES is a list of all card values.
-
 ACE = 1
 JACK = 11
 QUEEN = 12
 KING = 13
-ALLVALUES = range(1, 14) # (one more than the highest value)
+ALLVALUES = range(1, 14)
 NVALUES = len(ALLVALUES)
 
 
-# VALNAMES is a list that maps a card value to string.  It contains a
-# dummy element at index 0 so it can be indexed directly with the card
-# value.
 
 VALNAMES = ["", "A"] + map(str, range(2, 11)) + ["J", "Q", "K"]
 
-
-# Solitaire constants.  The only one I can think of is the number of
-# row stacks.
-
 NROWS = 7
 
-
-# The rest of the program consists of class definitions.  These are
-# further described in their documentation strings.
-
-
 class Card:
-
-    """A playing card.
-
-    A card doesn't record to which stack it belongs; only the stack
-    records this (it turns out that we always know this from the
-    context, and this saves a ``double update'' with potential for
-    inconsistencies).
-
-    Public methods:
-
-    moveto(x, y) -- move the card to an absolute position
-    moveby(dx, dy) -- move the card by a relative offset
-    tkraise() -- raise the card to the top of its stack
-    showface(), showback() -- turn the card face up or down & raise it
-
-    Public read-only instance variables:
-
-    suit, value, color -- the card's suit, value and color
-    face_shown -- true when the card is shown face up, else false
-
-    Semi-public read-only instance variables (XXX should be made
-    private):
-
-    group -- the Canvas.Group representing the card
-    x, y -- the position of the card's top left corner
-
-    Private instance variables:
-
-    __back, __rect, __text -- the canvas items making up the card
-
-    (To show the card face up, the text item is placed in front of
-    rect and the back is placed behind it.  To show it face down, this
-    is reversed.  The card is created face down.)
-
-    """
-
     def __init__(self, suit, value, canvas):
-        """Card constructor.
 
-        Arguments are the card's suit and value, and the canvas widget.
-
-        The card is created at position (0, 0), with its face down
-        (adding it to a stack will position it according to that
-        stack's rules).
-
-        """
         self.suit = suit
         self.value = value
         self.color = COLOR[suit]

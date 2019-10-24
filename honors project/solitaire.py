@@ -9,7 +9,7 @@ import math
 import random
 
 from tkinter import *
-from Canvas import Rectangle, CanvasText, Group, Window
+from tkinter.Canvas import Rectangle, CanvasText, Group, Window
 
 class Group(Group):
    def bind(self, sequence=None, command=None):
